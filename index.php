@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 spl_autoload_register(function ($class) {
-    require __DIR__ . "/src/$class.php";
+  require __DIR__ . "/src/$class.php";
 });
 
 set_error_handler("ErrorHandler::handleError");
@@ -14,29 +14,17 @@ header("Content-type: application/json; charset=UTF-8");
 $parts = explode("/", $_SERVER["REQUEST_URI"]);
 
 if ($parts[1] != "products") {
-    http_response_code(404);
-    exit;
+  http_response_code(404);
+  echo json_encode(["message" => 'No product requested!']);
+  exit;
 }
 
 $id = $parts[2] ?? null;
 
-$database = new Database("localhost", "product_db", "root", "");
+$database = new Database("localhost", "product_db", "admin", "1qaz2wsX");
 
 $gateway = new ProductGateway($database);
 
 $controller = new ProductController($gateway);
 
 $controller->processRequest($_SERVER["REQUEST_METHOD"], $id);
-
-
-
-
-
-
-
-
-
-
-
-
-
