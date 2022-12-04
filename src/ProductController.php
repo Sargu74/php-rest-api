@@ -75,7 +75,6 @@ class ProductController
         $data = (array) json_decode(file_get_contents("php://input"), true);
 
         $errors = $this->getValidationErrors($data);
-
         if (!empty($errors)) {
           http_response_code(422);
           echo json_encode(["errors" => $errors]);
